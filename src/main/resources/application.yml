@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    #   数据源基本配置
+    username: root
+    password: sjtu2020
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://202.121.180.25:3306/memory?allowPublicKeyRetrieval=true&useSSL=false
+
+mybatis:
+  # 指定全局配置文件位置
+  config-location: classpath:mybatis/mybatis-config.xml
+  # 指定sql映射文件位置
+  mapper-locations: classpath:mybatis/mapper/*.xml
