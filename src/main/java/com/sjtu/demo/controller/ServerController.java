@@ -26,22 +26,8 @@ public class ServerController {
     @GetMapping(value = "/main")
     public String serverFailure(Model model, HttpSession session){
         Date date=new Date(System.currentTimeMillis());
-        float[] probability=predictionDao.get7Probability(session.getAttribute("ip").toString(),date);
-        ArrayList<String > ipList=serverDao.getIpFromUser(session.getAttribute("loginUser").toString());
-        model.addAttribute("failure0",probability[0]);
-        model.addAttribute("failure1",probability[1]);
-        model.addAttribute("failure2",probability[2]);
-        model.addAttribute("failure3",probability[3]);
-        model.addAttribute("failure4",probability[4]);
-        model.addAttribute("failure5",probability[5]);
-        model.addAttribute("failure6",probability[6]);
-        model.addAttribute("ipList",ipList);
-        return "memoryFailure";
-    }
-    @PostMapping(value = "/newIp")
-    public String newIp(@RequestParam("ip") String ip, Model model, HttpSession session){
-        session.setAttribute("ip",ip);
-        Date date=new Date(System.currentTimeMillis());
+        String ip=session.getAttribute("ip").toString();
+        System.out.println("ip: "+ip);
         float[] probability=predictionDao.get7Probability(ip,date);
         ArrayList<String > ipList=serverDao.getIpFromUser(session.getAttribute("loginUser").toString());
         model.addAttribute("failure0",probability[0]);
@@ -52,7 +38,13 @@ public class ServerController {
         model.addAttribute("failure5",probability[5]);
         model.addAttribute("failure6",probability[6]);
         model.addAttribute("ipList",ipList);
+        model.addAttribute("ip",ip);
         return "memoryFailure";
+    }
+    @PostMapping(value = "/newIp")
+    public String newIp(@RequestParam("ip") String ip, HttpSession session){
+        session.setAttribute("ip",ip);
+        return "redirect:/main.html";
     }
 
 

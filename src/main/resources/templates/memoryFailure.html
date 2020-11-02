@@ -38,6 +38,18 @@
 				-webkit-animation: chartjs-render-animation 0.001s;
 				animation: chartjs-render-animation 0.001s;
 			}
+
+			.form-ip {
+				width:100px;
+				heigth:30px;
+				margin-left:200px;
+				margin-top:10px;
+			}
+
+			.lab-ip {
+				width:200px;
+				heigth:30px;
+			}
 		</style>
 	</head>
 
@@ -64,10 +76,10 @@
 					</div>
 					<canvas class="my-4 chartjs-render-monitor" id="myChart" width="1076" height="454" style="display: block; width: 1076px; height: 454px;"></canvas>
 
-					<form style="display: table;" class="form-signin" th:action="@{/newIp.html}" method="post">
-						<label class="sr-only">Select server ip</label>
+					<form class="form-ip" th:action="@{/newIp.html}" method="post">
+						<label class="lab-ip">Select server ip</label>
 						<select name="ip" onchange="javascript:this.form.submit();">
-							<option th:value="${ip}" th:each="ip:${ipList}" th:text="${ip}">1</option>
+							<option th:value="${cur}" th:each="cur:${ipList}" th:text="${cur}">1</option>
 						</select>
 					</form>
 				</main>
