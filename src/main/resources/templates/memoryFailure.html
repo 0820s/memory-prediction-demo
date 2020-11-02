@@ -39,16 +39,23 @@
 				animation: chartjs-render-animation 0.001s;
 			}
 
-			.form-ip {
-				width:100px;
-				heigth:30px;
-				margin-left:200px;
-				margin-top:10px;
+			.div-ip {
+				width:300px;
+				heigth:50px;
+				margin-left:100px;
+				float: left;
 			}
 
-			.lab-ip {
+			.select-ip{
 				width:200px;
 				heigth:30px;
+			}
+
+			.info{
+				width:300px;
+				heigth:50px;
+				margin-left:100px;
+				float: left;
 			}
 		</style>
 	</head>
@@ -72,16 +79,39 @@
 					</div>
 
 					<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-						<h1 class="h2">Memory Failure Probability</h1>
+						<h1 class="h2">Memory Failure Probability Prediction</h1>
 					</div>
 					<canvas class="my-4 chartjs-render-monitor" id="myChart" width="1076" height="454" style="display: block; width: 1076px; height: 454px;"></canvas>
 
-					<form class="form-ip" th:action="@{/newIp.html}" method="post">
-						<label class="lab-ip">Select server ip</label>
-						<select name="ip" onchange="javascript:this.form.submit();">
-							<option th:value="${cur}" th:each="cur:${ipList}" th:text="${cur}">1</option>
-						</select>
-					</form>
+					<div class="div-ip">
+						<form th:action="@{/newIp.html}" method="post">
+							<h5>Select the server ip:</h5>
+							<select class="select-ip" name="ip" onchange="javascript:this.form.submit();">
+								<option th:value="${cur}" th:selected="${ip}==${cur}?true:false" th:each="cur:${ipList}" th:text="${cur}">1</option>
+							</select>
+						</form>
+					</div>
+
+
+					<div class="info">
+						<h5>Server hardware information</h5>
+						<ul>
+							<li th:text="'server brand: '+ ${info.getServerBrand()}">1</li>
+							<li th:text="'CPU version: '+${info.getProcVersion()}">2</li>
+							<li th:text="'memory manufactory: '+${info.getMemManufactory()}">3</li>
+							<li th:text="'memory part: '+${info.getMemPart()}">4</li>
+							<li th:text="'memory speed: '+ ${info.getMemSpeed()}">5</li>
+						</ul>
+					</div>
+
+					<div class="info">
+						<h5>Memory corrected errors</h5>
+						<ul>
+							<li th:text="'corrected error count: '+ ${CECount}">1</li>
+							<li th:text="'bank ID: '+${bankID}">2</li>
+						</ul>
+					</div>
+
 				</main>
 			</div>
 		</div>

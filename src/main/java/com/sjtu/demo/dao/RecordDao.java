@@ -22,23 +22,48 @@ public class RecordDao {
 
 
     public float getReadBandwidth(String ip, Date timestamp){
-        return recordMapper.getReadBandwidth(ip,timestamp).floatValue();
+        Float readBandwidth=recordMapper.getReadBandwidth(ip,timestamp);
+        if(readBandwidth==null){
+            return 0;
+        }else{
+            return readBandwidth.floatValue();
+        }
     }
 
     public float getWriteBandwidth(String ip, Date timestamp){
-        return recordMapper.getWriteBandwidth(ip,timestamp).floatValue();
+        Float writeBandwidth=recordMapper.getWriteBandwidth(ip,timestamp);
+        if(writeBandwidth==null){
+            return 0;
+        }else{
+            return writeBandwidth.floatValue();
+        }
     }
 
     public float getReadLatency(String ip, Date timestamp){
-        return recordMapper.getReadLatency(ip,timestamp).floatValue();
+        Float readLatency=recordMapper.getReadLatency(ip,timestamp);
+        if(readLatency==null){
+            return 0;
+        }else{
+            return readLatency.floatValue();
+        }
     }
 
     public int getCE(String ip, Date timestamp){
-        return recordMapper.getCE(ip,timestamp).intValue();
+        Integer CECount=recordMapper.getCE(ip,timestamp);
+        if(CECount==null){
+            return 0;
+        }else{
+            return CECount.intValue();
+        }
     }
 
     public String getBankID(String ip, Date timestamp){
-        return recordMapper.getBankID(ip,timestamp);
+        String bankID=recordMapper.getBankID(ip,timestamp);
+        if(bankID==null){
+            return "none";
+        }else{
+            return bankID;
+        }
     }
 
     public float[] get7ReadBandwidth(String ip, Date timestamp){

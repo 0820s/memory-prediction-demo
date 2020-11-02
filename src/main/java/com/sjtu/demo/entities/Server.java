@@ -2,7 +2,7 @@ package com.sjtu.demo.entities;
 
 public class Server {
     private String userName;
-    private int ip;
+    private String ip;
     private String serverBrand;
     private String procVersion;
     private String memManufactory;
@@ -12,7 +12,7 @@ public class Server {
     public Server() {
     }
 
-    public Server(String userName, int ip, String serverBrand, String procVersion, String memManufactory, String memSpeed, String memPart) {
+    public Server(String userName, String ip, String serverBrand, String procVersion, String memManufactory, String memSpeed, String memPart) {
         this.userName = userName;
         this.ip = ip;
         this.serverBrand = serverBrand;
@@ -30,11 +30,11 @@ public class Server {
         this.userName = userName;
     }
 
-    public int getIp() {
+    public String getIp() {
         return ip;
     }
 
-    public void setIp(int ip) {
+    public void setIp(String  ip) {
         this.ip = ip;
     }
 

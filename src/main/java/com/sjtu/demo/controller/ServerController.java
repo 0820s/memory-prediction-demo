@@ -3,6 +3,7 @@ package com.sjtu.demo.controller;
 import com.sjtu.demo.dao.PredictionDao;
 import com.sjtu.demo.dao.RecordDao;
 import com.sjtu.demo.dao.ServerDao;
+import com.sjtu.demo.entities.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,9 +28,14 @@ public class ServerController {
     public String serverFailure(Model model, HttpSession session){
         Date date=new Date(System.currentTimeMillis());
         String ip=session.getAttribute("ip").toString();
-        System.out.println("ip: "+ip);
         float[] probability=predictionDao.get7Probability(ip,date);
         ArrayList<String > ipList=serverDao.getIpFromUser(session.getAttribute("loginUser").toString());
+        String ceCount=String.valueOf(recordDao.getCE(ip,date));
+        String bankID=recordDao.getBankID(ip,date);
+        model.addAttribute("CECount",ceCount);
+        model.addAttribute("bankID",bankID);
+        Server server=serverDao.getInfo(ip);
+        model.addAttribute("info",server);
         model.addAttribute("failure0",probability[0]);
         model.addAttribute("failure1",probability[1]);
         model.addAttribute("failure2",probability[2]);

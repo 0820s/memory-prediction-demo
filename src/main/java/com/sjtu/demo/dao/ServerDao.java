@@ -1,5 +1,6 @@
 package com.sjtu.demo.dao;
 
+import com.sjtu.demo.entities.Server;
 import com.sjtu.demo.mapper.ServerMapper;
 import org.springframework.stereotype.Repository;
 
@@ -34,23 +35,48 @@ public class ServerDao {
     }
 
     public String getServerBrandFromIp(String ip){
-        return serverMapper.getServerBrandFromIp(ip);
+        String serverBrand=serverMapper.getServerBrandFromIp(ip);
+        if(serverBrand==null){
+            return "unknown";
+        }else{
+            return serverBrand;
+        }
     }
 
     public String getProcVersionFromIp(String ip){
-        return serverMapper.getProcVersionFromIp(ip);
+        String procVersion=serverMapper.getProcVersionFromIp(ip);
+        if(procVersion==null){
+            return "unknown";
+        }else{
+            return procVersion;
+        }
     }
 
     public String getMemManufactoryFromIp(String ip){
-        return serverMapper.getMemManufactoryFromIp(ip);
+        String memManufactory=serverMapper.getMemManufactoryFromIp(ip);
+        if(memManufactory==null){
+            return "unknown";
+        }else{
+            return memManufactory;
+        }
     }
 
     public String getMemSpeedFromIp(String ip){
-        return serverMapper.getMemSpeedFromIp(ip);
+        String memSpeed=serverMapper.getMemSpeedFromIp(ip);
+        if(memSpeed==null){
+            return "unknown";
+        }else{
+            return memSpeed;
+        }
     }
 
     public String getMemPartFromIp(String ip){
-        return serverMapper.getMemPartFromIp(ip);
+        String memPart=serverMapper.getMemPartFromIp(ip);
+        if(memPart==null){
+            return "unknown";
+        }else{
+            return memPart;
+        }
     }
 
     public boolean addInfo(String ip, String serverBrand, String procVersion, String memManufactory, String memSpeed, String memPart){
@@ -70,5 +96,10 @@ public class ServerDao {
         else{
             return true;
         }
+    }
+
+    public Server getInfo(String ip){
+        Server server=new Server(getUserFromIp(ip), ip, getServerBrandFromIp(ip), getProcVersionFromIp(ip), getMemManufactoryFromIp(ip), getMemSpeedFromIp(ip), getMemPartFromIp(ip));
+        return server;
     }
 }
