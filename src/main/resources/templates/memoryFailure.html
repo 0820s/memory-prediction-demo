@@ -47,8 +47,8 @@
 			}
 
 			.select-ip{
-				width:200px;
-				heigth:30px;
+				width:50%;
+				heigth:5%;
 			}
 
 			.info{
@@ -56,6 +56,13 @@
 				heigth:50px;
 				margin-left:100px;
 				float: left;
+			}
+
+			.p-content{
+				font-family: 'Open Sans', 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				display: block;
+				font-size: 1.3em;
+				font-weight: 600;
 			}
 		</style>
 	</head>
@@ -85,7 +92,7 @@
 
 					<div class="div-ip">
 						<form th:action="@{/newIp.html}" method="post">
-							<h5>Select the server ip:</h5>
+							<p class="p-content">Select the server ip:</p>
 							<select class="select-ip" name="ip" onchange="javascript:this.form.submit();">
 								<option th:value="${cur}" th:selected="${ip}==${cur}?true:false" th:each="cur:${ipList}" th:text="${cur}">1</option>
 							</select>
@@ -94,7 +101,7 @@
 
 
 					<div class="info">
-						<h5>Server hardware information</h5>
+						<p class="p-content">Server hardware information</p>
 						<ul>
 							<li th:text="'server brand: '+ ${info.getServerBrand()}">1</li>
 							<li th:text="'CPU version: '+${info.getProcVersion()}">2</li>
@@ -105,13 +112,12 @@
 					</div>
 
 					<div class="info">
-						<h5>Memory corrected errors</h5>
+						<p class="p-content">Memory corrected errors</p>
 						<ul>
 							<li th:text="'corrected error count: '+ ${CECount}">1</li>
 							<li th:text="'bank ID: '+${bankID}">2</li>
 						</ul>
 					</div>
-
 				</main>
 			</div>
 		</div>
