@@ -27,6 +27,6 @@ public interface RecordMapper {
     @Insert("insert into record(ip, timestamp, readBandwidth, writeBandwidth, readLatency, ce, bankID) values(#{ip}, #{timestamp, jdbcType=DATE}, #{readBandwidth}, #{writeBandwidth}, #{readLatency}, #{ce}, #{bankID})")
     public void save(@Param("ip")String ip, @Param("timestamp")Date timestamp, @Param("readBandwidth")float readBandwidth, @Param("writeBandwidth")float writeBandwidth, @Param("readLatency")float readLatency, @Param("ce")int ce, @Param("bankID")String bankID);
 
-    @Update("update record set ip=#{ip} timestamp=#{timestamp} readBandwidth=#{readBandwidth} writeBandwidth=#{writeBandwidth} readLatency=#{readLatency} ce=#{ce} bankID=#{bankID} where ip=#{ip} and timestamp=#{timestamp, jdbcType=DATE}")
+    @Update("update record set readBandwidth=#{readBandwidth}, writeBandwidth=#{writeBandwidth}, readLatency=#{readLatency}, ce=#{ce}, bankID=#{bankID} where ip=#{ip} and timestamp=#{timestamp, jdbcType=DATE}")
     public void update(@Param("ip")String ip, @Param("timestamp")Date timestamp, @Param("readBandwidth")float readBandwidth, @Param("writeBandwidth")float writeBandwidth, @Param("readLatency")float readLatency, @Param("ce")int ce, @Param("bankID")String bankID);
 }

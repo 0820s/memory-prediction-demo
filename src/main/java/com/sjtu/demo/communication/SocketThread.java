@@ -1,5 +1,6 @@
 package com.sjtu.demo.communication;
 
+import com.sjtu.demo.dao.PredictionDao;
 import com.sjtu.demo.dao.RecordDao;
 import com.sjtu.demo.dao.ServerDao;
 import com.sjtu.demo.dao.UserDao;
@@ -22,6 +23,9 @@ public class SocketThread {
     @Autowired
     RecordDao recordDao;
 
+    @Autowired
+    PredictionDao predictionDao;
+
     @Async
     public void connect(Socket clientSocket) {
         //accept connection and communicate
@@ -35,7 +39,7 @@ public class SocketThread {
 
             String ip=clientSocket.getInetAddress().toString().substring(1);
             boolean login=serverDao.containsIp(ip);
-            //System.out.println("ready");
+            //System.out.println("new connect ready");
 
             //read
             while(true){
@@ -54,7 +58,7 @@ public class SocketThread {
                         if(!serverDao.containsIp(ip)){
                             serverDao.saveIp(ip, logInfor[1]);
                         }
-                        System.out.println("success log in: "+ip);
+                        //System.out.println("success log in: "+ip);
                     }
                     else{
                         pw.println("refused");
@@ -78,12 +82,68 @@ public class SocketThread {
                     if(data.length==6){
                         Date date = new Date(System.currentTimeMillis());
                         recordDao.save(ip,date,Float.parseFloat(data[1]),Float.parseFloat(data[2]),Float.parseFloat(data[3]),Integer.parseInt(data[4]),data[5]);
+
+                        StringBuffer sample=new StringBuffer();
+                        sample.append(serverDao.getServerBrandFromIp(ip)+",");
+                        sample.append(serverDao.getProcVersionFromIp(ip)+",");
+                        sample.append(serverDao.getMemManufactoryFromIp(ip)+",");
+                        sample.append(serverDao.getMemSpeedFromIp(ip)+",");
+                        sample.append(serverDao.getMemPartFromIp(ip));
+
+                        int[] CEs=recordDao.get10CE(ip,date);
+                        for(int ce:CEs){
+                            sample.append(",");
+                            sample.append(String.valueOf(ce));
+                        }
+
+                        String[] bankIDs=recordDao.get10BankID(ip,date);
+                        for(String bankID:bankIDs){
+                            sample.append(",");
+                            sample.append(bankID);
+                        }
+
+                        float[] readBandwidths=recordDao.get10ReadBandwidth(ip,date);
+                        for(float readBandwidth:readBandwidths){
+                            sample.append(",");
+                            sample.append(String.valueOf(readBandwidth));
+                        }
+
+                        float[] writeBandwidths=recordDao.get10WriteBandwidth(ip,date);
+                        for(float writeBandwidth:writeBandwidths){
+                            sample.append(",");
+                            sample.append(String.valueOf(writeBandwidth));
+                        }
+
+                        float[] readLatencys=recordDao.get10ReadLatency(ip,date);
+                        for(float readLatency:readLatencys){
+                            sample.append(",");
+                            sample.append(String.valueOf(readLatency));
+                        }
+
+                        float probability=0;
+                        try{
+                            String command="python /root/project3_sjtu/model/xgbst_new.py "+sample.toString();
+                            Process proc=Runtime.getRuntime().exec(command);
+                            proc.waitFor();
+                            BufferedReader in=new BufferedReader(new InputStreamReader(proc.getInputStream()));
+                            probability=Float.parseFloat(in.readLine());
+                            in.close();
+                        }catch(Exception e){
+                            e.printStackTrace();
+                        }
+
+                        predictionDao.save(ip,date,probability);
+
+                        //System.out.println("add record");
+                    }
+                    else{
+                        System.out.println("failed to add record:"+buf);
                     }
                 }
             }
 
             //close
-            System.out.println("close client");
+            //System.out.println("close client");
             br.close();
             pw.close();
             clientSocket.close();

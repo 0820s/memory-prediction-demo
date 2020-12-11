@@ -26,7 +26,7 @@ public class MemoryFailurePrediction {
 		SpringApplication.run(MemoryFailurePrediction.class, args);
 
 		try{
-			ServerSocket serverSocket=new ServerSocket(9126);
+			ServerSocket serverSocket=new ServerSocket(8093);
 			Socket client = null;
 			while(true){
 				client = serverSocket.accept();

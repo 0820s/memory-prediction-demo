@@ -80,9 +80,37 @@ public class RecordDao {
         return result;
     }
 
+    public float[] get10ReadBandwidth(String ip, Date timestamp){
+        float[] result=new float[10];
+        for(int i=0;i>-10;i--) {
+            Float cur=recordMapper.getReadBandwidth(ip, getDate(timestamp,i));
+            if(cur==null){
+                result[-i]=0;
+            }
+            else{
+                result[-i]=cur.floatValue();
+            }
+        }
+        return result;
+    }
+
     public float[] get7WriteBandwidth(String ip, Date timestamp){
         float[] result=new float[7];
         for(int i=0;i>-7;i--) {
+            Float cur=recordMapper.getWriteBandwidth(ip, getDate(timestamp,i));
+            if(cur==null){
+                result[-i]=0;
+            }
+            else{
+                result[-i]=cur.floatValue();
+            }
+        }
+        return result;
+    }
+
+    public float[] get10WriteBandwidth(String ip, Date timestamp){
+        float[] result=new float[10];
+        for(int i=0;i>-10;i--) {
             Float cur=recordMapper.getWriteBandwidth(ip, getDate(timestamp,i));
             if(cur==null){
                 result[-i]=0;
@@ -108,9 +136,37 @@ public class RecordDao {
         return result;
     }
 
+    public float[] get10ReadLatency(String ip, Date timestamp){
+        float[] result=new float[10];
+        for(int i=0;i>-10;i--) {
+            Float cur=recordMapper.getReadLatency(ip, getDate(timestamp,i));
+            if(cur==null){
+                result[-i]=0;
+            }
+            else{
+                result[-i]=cur.floatValue();
+            }
+        }
+        return result;
+    }
+
     public int[] get7CE(String ip, Date timestamp){
         int[] result=new int[7];
-        for(int i=0;i>-7;i--) {
+        for(int i=0;i>-10;i--) {
+            Integer cur=recordMapper.getCE(ip, getDate(timestamp,i));
+            if(cur==null){
+                result[-i]=0;
+            }
+            else{
+                result[-i]=cur.intValue();
+            }
+        }
+        return result;
+    }
+
+    public int[] get10CE(String ip, Date timestamp){
+        int[] result=new int[10];
+        for(int i=0;i>-10;i--) {
             Integer cur=recordMapper.getCE(ip, getDate(timestamp,i));
             if(cur==null){
                 result[-i]=0;
@@ -127,7 +183,21 @@ public class RecordDao {
         for(int i=0;i>-7;i--) {
             String cur=recordMapper.getBankID(ip, getDate(timestamp,i));
             if(cur==null){
-                result[-i]="unknown";
+                result[-i]="0";
+            }
+            else{
+                result[-i]=cur;
+            }
+        }
+        return result;
+    }
+
+    public String[] get10BankID(String ip, Date timestamp){
+        String[] result=new String[10];
+        for(int i=0;i>-10;i--) {
+            String cur=recordMapper.getBankID(ip, getDate(timestamp,i));
+            if(cur==null){
+                result[-i]="0";
             }
             else{
                 result[-i]=cur;

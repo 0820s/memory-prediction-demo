@@ -37,4 +37,14 @@ public class PredictionDao {
         }
         return result;
     }
+
+    public void save(String ip, Date date, float probability){
+        Float cur=predictionMapper.getProbability(ip,date);
+        if(cur==null){
+            predictionMapper.save(ip,date,probability);
+        }
+        else{
+            predictionMapper.update(ip,date,probability);
+        }
+    }
 }
