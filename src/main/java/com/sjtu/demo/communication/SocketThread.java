@@ -33,6 +33,17 @@ public class SocketThread {
         BufferedReader br = null;
         PrintWriter pw = null;
 
+        String pythonPath=System.getProperty("path");
+        String filePath;
+        if(pythonPath==null){
+            filePath="D:\\java\\model\\DFP.model ";
+            pythonPath="D:\\java\\model\\xgbst_new.py ";
+        }
+        else{
+            filePath=pythonPath+"/DFP.model ";
+            pythonPath+="/xgbst_new.py ";
+        }
+
         try {
             br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             pw = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
@@ -122,7 +133,7 @@ public class SocketThread {
 
                         float probability=0;
                         try{
-                            String command="python /root/project3_sjtu/model/xgbst_new.py "+sample.toString();
+                            String command="python "+pythonPath+filePath+sample.toString();
                             Process proc=Runtime.getRuntime().exec(command);
                             proc.waitFor();
                             BufferedReader in=new BufferedReader(new InputStreamReader(proc.getInputStream()));
