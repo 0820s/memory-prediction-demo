@@ -95,11 +95,11 @@ public class SocketThread {
                         recordDao.save(ip,date,Float.parseFloat(data[1]),Float.parseFloat(data[2]),Float.parseFloat(data[3]),Integer.parseInt(data[4]),data[5]);
 
                         StringBuffer sample=new StringBuffer();
-                        sample.append(serverDao.getServerBrandFromIp(ip)+",");
+                        /*sample.append(serverDao.getServerBrandFromIp(ip)+",");
                         sample.append(serverDao.getProcVersionFromIp(ip)+",");
                         sample.append(serverDao.getMemManufactoryFromIp(ip)+",");
                         sample.append(serverDao.getMemSpeedFromIp(ip)+",");
-                        sample.append(serverDao.getMemPartFromIp(ip));
+                        sample.append(serverDao.getMemPartFromIp(ip));*/
 
                         int[] CEs=recordDao.get10CE(ip,date);
                         for(int ce:CEs){
@@ -137,7 +137,10 @@ public class SocketThread {
                             Process proc=Runtime.getRuntime().exec(command);
                             proc.waitFor();
                             BufferedReader in=new BufferedReader(new InputStreamReader(proc.getInputStream()));
-                            probability=Float.parseFloat(in.readLine());
+                            String line=in.readLine();
+                            if(line!=null){
+                                probability=Float.parseFloat(line);
+                            }
                             in.close();
                         }catch(Exception e){
                             e.printStackTrace();
