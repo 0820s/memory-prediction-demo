@@ -50,7 +50,7 @@ public class SocketThread {
 
             String ip=clientSocket.getInetAddress().toString().substring(1);
             boolean login=serverDao.containsIp(ip);
-            //System.out.println("new connect ready");
+            //System.out.println("new connect ready: "+ip);
 
             //read
             while(true){
