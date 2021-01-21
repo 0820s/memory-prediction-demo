@@ -141,7 +141,7 @@ public class SocketThread {
                             if(line!=null){
                                 probability=Float.parseFloat(line);
                             }
-                            System.out.println("new prediction");
+                            //System.out.println("new prediction");
                             in.close();
                         }catch(Exception e){
                             e.printStackTrace();
