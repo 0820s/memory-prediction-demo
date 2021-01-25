@@ -152,7 +152,7 @@ public class RecordDao {
 
     public int[] get7CE(String ip, Date timestamp){
         int[] result=new int[7];
-        for(int i=0;i>-10;i--) {
+        for(int i=0;i>-7;i--) {
             Integer cur=recordMapper.getCE(ip, getDate(timestamp,i));
             if(cur==null){
                 result[-i]=0;

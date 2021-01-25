@@ -36,12 +36,12 @@ public class SocketThread {
         String pythonPath=System.getProperty("path");
         String filePath;
         if(pythonPath==null){
-            filePath="D:\\java\\model\\DFP.model ";
-            pythonPath="D:\\java\\model\\xgbst_new.py ";
+            filePath="D:\\java\\memory-prediction-demo\\model\\DFP.model";
+            pythonPath="D:\\java\\memory-prediction-demo\\model\\xgbst_new.py";
         }
         else{
-            filePath=pythonPath+"/DFP.model ";
-            pythonPath+="/xgbst_new.py ";
+            filePath=pythonPath+"/DFP.model";
+            pythonPath=pythonPath+"/xgbst_new.py";
         }
 
         try {
@@ -133,22 +133,24 @@ public class SocketThread {
 
                         float probability=0;
                         try{
-                            String command="python "+pythonPath+filePath+sample.toString();
+                            String command="python "+pythonPath+" "+filePath+" "+sample.toString();
+                            System.out.println(command);
                             Process proc=Runtime.getRuntime().exec(command);
                             proc.waitFor();
                             BufferedReader in=new BufferedReader(new InputStreamReader(proc.getInputStream()));
                             String line=in.readLine();
                             if(line!=null){
                                 probability=Float.parseFloat(line);
+                                //System.out.println("new prediction: "+probability);
+                            }else{
+                                System.out.println("prediction exception!");
+                                System.out.println(command);
                             }
-                            //System.out.println("new prediction");
                             in.close();
                         }catch(Exception e){
                             e.printStackTrace();
                         }
-
                         predictionDao.save(ip,date,probability);
-
                         //System.out.println("add record");
                     }
                     else{
